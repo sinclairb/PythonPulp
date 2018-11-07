@@ -1,11 +1,20 @@
 import effect
 
 class Power:
+    """
+    Powers are the paramount ways in which characters interact with each other and the environment
+    Each power has a name, description, effects, potential, and cost
+    """
     def __init__(self, name="", description="", effects=[]):
+        # The power's name
         self.name=name
+        # A description of what the power does
         self.description=description
+        # A two dimensional list of the effect name and its value
         self.effects=effects
+        # 
         self.potential=self.calcPotential()
+        # 
         self.energyCost=self.calcEnergyCost()
 
 
