@@ -15,4 +15,6 @@ window.title("Pulp")
 window.attributes('-fullscreen', False)
 # Displays the below objects
 
+effectsFrame=tkinter.Frame(window)
+
 window.mainloop()

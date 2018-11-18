@@ -74,3 +74,12 @@ class Confusion(Effect):
         descrption="Interferes with a target's effects or targeting"
         Effect.__init__(self, cost, descrption)
 
+
+listOfEffects={"Damage",
+               "Healing",
+               "Additional Target",
+               "Multiplication",
+               "Negation",
+               "Persistence",
+               "Paralysis",
+               "Confusion"}
