@@ -42,9 +42,42 @@ class CharacterTabs(tkinter.Frame):
         # Create a new default instance of a character
         newCharacter=character.Character()
         # Create a new CharacterFrame for the new character object
-        newCharacterFrame=CharacterFrame(newCharacter)
+        newCharacterFrame=CharacterFrame(newCharacter, self)
         # Create a new tab to display the information about the new character
         self.tabs.add(newCharacterFrame,text=newCharacter.name)
+
+
+    def updateName(self, child):
+        # Gets the contents of the tab's name entry
+        newName=child.characterNameEntry.get()
+        # Sets the character's name to the new name
+        child.character.setName(newName)
+        # Updates the tab's text to match the new name
+        self.tabs.tab(child,text=newName+" | "+child.character.epithet+" | "+str(child.character.level))
+        # Return true in order to indicate that the update fired
+        return True
+
+    
+    def updateEpithet(self, child):
+        # Gets the contents of the tab's epithet entry
+        newEpithet=child.characterEpithetEntry.get()
+        # Sets the character's epithet to the new epithet
+        child.character.setEpithet(newEpithet)
+        # Updates the tab's text to match the new epithet
+        self.tabs.tab(child,text=child.character.name+" | "+newEpithet+" | "+str(child.character.level))
+        # Return true in order to indicate that the update fired
+        return True
+
+
+    def updateLevel(self, child):
+        # Gets the contents of the tab's level entry
+        newLevel=child.characterLevelEntry.get()
+        # Sets the character's level to the new level
+        child.character.setLevel(newLevel)
+        # Updates the tab's text to match the new level
+        self.tabs.tab(child,text=child.character.name+" | "+child.character.epithet+" | "+str(newLevel))
+        # Return true in order to indicate that the update fired
+        return True
 
 
 
@@ -56,11 +89,33 @@ class CharacterFrame(tkinter.Frame):
         # The character object that the frame is tied to
         self.character=tiedCharacter
 
-        # An entry to display and edit the character's name
-        self.characterNameEntry=tkinter.Entry(self)
+        # A labeled entry to display and edit the character's name
+        self.characterNameLabel=tkinter.Label(self,text="Name")
+        self.characterNameLabel.pack()
+        self.characterNameEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.master.updateName(self))
         self.characterNameEntry.pack()
         self.characterNameEntry.delete(0,'end')
         self.characterNameEntry.insert(0,self.character.name)
+
+        # A labeled entry to display and edit the character's epithet
+        self.characterEpithetLabel=tkinter.Label(self,text="Epithet")
+        self.characterEpithetLabel.pack()
+        self.characterEpithetEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.master.updateEpithet(self))
+        self.characterEpithetEntry.pack()
+        self.characterEpithetEntry.delete(0,'end')
+        self.characterEpithetEntry.insert(0,self.character.epithet)
+
+        # A labeled entry to display and edit the character's level
+        self.characterLevelLabel=tkinter.Label(self,text="Level")
+        self.characterLevelLabel.pack()
+        self.characterLevelEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.master.updateLevel(self))
+        self.characterLevelEntry.pack()
+        self.characterLevelEntry.delete(0,'end')
+        self.characterLevelEntry.insert(0,self.character.level)
+
+        # A test button to print a value of the character
+        #self.test=tkinter.Button(self, text="Print Name", command=lambda: print(self.character.name))
+        #self.test.pack()
 
 
 
@@ -85,8 +140,3 @@ class EffectsFrame(tkinter.Frame):
         self.effect4.pack()
         self.effect5=tkinter.OptionMenu(self, "Effect5", *effect.listOfEffects)
         self.effect5.pack()
-
-
-
-def update():
-    pass
