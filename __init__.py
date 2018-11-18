@@ -13,4 +13,7 @@ window.attributes('-fullscreen', False)
 # Displays the tabs at the top of the windows to swap between characters
 GUI.CharacterTabs(window)
 
+# Update values in the GUI, such as names
+GUI.update()
+
 window.mainloop()

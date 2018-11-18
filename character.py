@@ -4,7 +4,7 @@ class Character:
     A character is any creature, item, or person that can be played or played against
     Each character has a name, level, energy, and powers
     """
-    def __init__(self, name="", level=1, powers=[]): 
+    def __init__(self, name="Character Name", level=1, powers=[]): 
         """ 
         Contructs a character with default parameters based on level
         """

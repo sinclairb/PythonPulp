@@ -1,5 +1,6 @@
 import tkinter
 import tkinter.ttk
+import character
 import effect
 
 class MainMenu(tkinter.Frame):
@@ -7,9 +8,19 @@ class MainMenu(tkinter.Frame):
         tkinter.Frame.__init__(self,*master)
         self.pack(fill='both')
 
-        # Button to create a new character
-        newCharacterButton=tkinter.Button(self, text="New")
-        newCharacterButton.pack()
+        # Button to create a new character, adding a new empty charater tab
+        self.newCharacterButton=tkinter.Button(self, text="New Character", command=self.master.addNewCharacter)
+        self.newCharacterButton.pack()
+
+        # Fullscreen toggle
+        self.fullscreenButton = tkinter.Button(self, text="Toggle Fullscreen", command= lambda: self.master.master.attributes('-fullscreen', (not self.master.master.attributes('-fullscreen'))))
+        self.fullscreenButton.pack()
+
+        # Quit button
+        self.quitButton = tkinter.Button(self, text="Quit", command=self.master.master.destroy)
+        self.quitButton.pack()
+
+
 
 class CharacterTabs(tkinter.Frame):
     def __init__(self, *master):
@@ -19,31 +30,39 @@ class CharacterTabs(tkinter.Frame):
         tkinter.Frame.__init__(self,*master)
         self.pack(fill='both')
 
-        # A list of all character objects that are loaded
-        self.listOfLoadedCharacters=[]
-
-        # The tab menu at the top of the window
+        # Create the tab menu at the top of the window
         self.tabs=tkinter.ttk.Notebook(self)
         self.tabs.pack(fill='both')
-        # The main menu tab
+        # Create the main menu tab
         self.mainMenu=MainMenu(self)
         self.tabs.add(self.mainMenu,text="Menu")
 
-class CharacterFrame(tkinter.Frame):
-    """
-    A swappable character frame is identical to a frame, but has the switchTo function, 
-    allowing it to be destroyed and replaced by a new frame.
-    """
-    def __init__(self,*master):
-        tkinter.Frame.__init__(self,*master)
-        self.pack()
 
-    def switchTo(self, newFrame):
-        """
-        Creates a new frame of the newFrame parameter type, and destroys itself
-        """
-        newFrame()
-        self.destroy()
+    def addNewCharacter(self):
+        # Create a new default instance of a character
+        newCharacter=character.Character()
+        # Create a new CharacterFrame for the new character object
+        newCharacterFrame=CharacterFrame(newCharacter)
+        # Create a new tab to display the information about the new character
+        self.tabs.add(newCharacterFrame,text=newCharacter.name)
+
+
+
+class CharacterFrame(tkinter.Frame):
+    def __init__(self, tiedCharacter, *master):
+        tkinter.Frame.__init__(self,*master)
+        self.pack(fill='both')
+
+        # The character object that the frame is tied to
+        self.character=tiedCharacter
+
+        # An entry to display and edit the character's name
+        self.characterNameEntry=tkinter.Entry(self)
+        self.characterNameEntry.pack()
+        self.characterNameEntry.delete(0,'end')
+        self.characterNameEntry.insert(0,self.character.name)
+
+
 
 class EffectsFrame(tkinter.Frame):
     def __init__(self, *master):
@@ -66,3 +85,8 @@ class EffectsFrame(tkinter.Frame):
         self.effect4.pack()
         self.effect5=tkinter.OptionMenu(self, "Effect5", *effect.listOfEffects)
         self.effect5.pack()
+
+
+
+def update():
+    pass
