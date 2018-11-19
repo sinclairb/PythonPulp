@@ -77,7 +77,7 @@ class CharacterTabs(tkinter.Frame):
         # Calculates and updates the character's energy
         child.character.energy=child.character.calcEnergy()
         # Update the energy label to match
-        child.character.characterEnergyDisplay.config(text=child.character.energy)
+        child.characterEnergyDisplay.config(text=child.character.energy)
         # Updates the tab's text to match the new level
         self.tabs.tab(child,text=child.character.name+" | "+child.character.epithet+" | "+str(newLevel))
         # Return true in order to indicate that the update fired

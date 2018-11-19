@@ -46,5 +46,5 @@ class Character:
         Based on the character's base energy, powers, damage sustained, and powers used, return the energy the character should have
         """
         base=20
-        addition=(5*self.level)
+        addition=5*int(self.level)
         return base+addition
