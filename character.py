@@ -15,7 +15,7 @@ class Character:
         # The characters level; influences base energy
         self.level=level
         # The amount of energy the character has; influenced by powers and damage from combat
-        self.energy=self.calcBaseEnergy()
+        self.energy=self.calcEnergy()
         # The list of power objects the character possesses; usually between 1 and 5 inclusive
         self.powers=powers
     
@@ -41,19 +41,10 @@ class Character:
         self.level=newLevel
 
 
-    def calcBaseEnergy(self):
-        """
-        Based on the character's level, return the energy the character should start with
-        """
-        base=20
-        addition=(5*self.level)
-        return base+addition
-
     def calcEnergy(self):
         """
         Based on the character's base energy, powers, damage sustained, and powers used, return the energy the character should have
         """
-        # Calculate the character's base energy
-        base=self.calcBaseEnergy
-        # 
-        return 
+        base=20
+        addition=(5*self.level)
+        return base+addition

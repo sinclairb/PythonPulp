@@ -74,6 +74,10 @@ class CharacterTabs(tkinter.Frame):
         newLevel=child.characterLevelEntry.get()
         # Sets the character's level to the new level
         child.character.setLevel(newLevel)
+        # Calculates and updates the character's energy
+        child.character.energy=child.character.calcEnergy()
+        # Update the energy label to match
+        child.character.characterEnergyDisplay.config(text=child.character.energy)
         # Updates the tab's text to match the new level
         self.tabs.tab(child,text=child.character.name+" | "+child.character.epithet+" | "+str(newLevel))
         # Return true in order to indicate that the update fired
@@ -112,6 +116,12 @@ class CharacterFrame(tkinter.Frame):
         self.characterLevelEntry.pack()
         self.characterLevelEntry.delete(0,'end')
         self.characterLevelEntry.insert(0,self.character.level)
+
+        # A label that displays the character's energy
+        self.characterEnergyLabel=tkinter.Label(self,text="Energy")
+        self.characterEnergyLabel.pack()
+        self.characterEnergyDisplay=tkinter.Label(self,text=self.character.energy)
+        self.characterEnergyDisplay.pack()
 
         # A test button to print a value of the character
         #self.test=tkinter.Button(self, text="Print Name", command=lambda: print(self.character.name))
