@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 This tool is designed to create, generate, and manage characters for the Pulp RPG system (also designed by me).
 
 Rules for the system are as follows:
->>>>>>> b891fc1ae6b7f673ebb4615deef228ecf8ce1b9f
 
 Welcome to Pulp, a rules-light, fully-agnostic RPG system.
 Pulp aims to be an extremely simple system that takes only minutes to learn and create characters in.
