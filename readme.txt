@@ -1,3 +1,7 @@
+This tool is designed to create, generate, and manage characters for the Pulp RPG system (also designed by me).
+
+Rules for the system are as follows:
+
 Welcome to Pulp, a rules-light, fully-agnostic RPG system.
 Pulp aims to be an extremely simple system that takes only minutes to learn and create characters in.
 It is mainly designed for high-action, low-content one-shots.
