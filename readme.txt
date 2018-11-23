@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+This tool is designed to create, generate, and manage characters for the Pulp RPG system (also designed by me).
+
+Rules for the system are as follows:
+>>>>>>> b891fc1ae6b7f673ebb4615deef228ecf8ce1b9f
 
 Welcome to Pulp, a rules-light, fully-agnostic RPG system.
 Pulp aims to be an extremely simple system that takes only minutes to learn and create characters in.
@@ -45,4 +51,8 @@ powers only used once per turn
 
 When a character's energy drops to zero, they are knocked out and cannot act for their next turn.
 If, by the beginning of their next turn, their energy remains at zero, the character dies.
+<<<<<<< HEAD
 Non-important enemies can die as soon as their energy reaches zero, if the GM so wishes.
+=======
+Non-important enemies can die as soon as their energy reaches zero, if the GM so wishes.
+>>>>>>> b891fc1ae6b7f673ebb4615deef228ecf8ce1b9f
