@@ -15,7 +15,23 @@ class Power:
         # 
         self.potential=self.calcPotential()
         # 
-        self.energyCost=self.calcEnergyCost()
+        self.cost=self.calcCost()
+
+
+    def setName(self, newName):
+        """
+        Makes sure the new value is acceptable
+        Sets the power's name to a new value
+        """
+        self.name=newName
+    
+
+    def setDescription(self, newDescription):
+        """
+        Makes sure the new value is acceptable
+        Sets the power's description to a new value
+        """
+        self.description=newDescription
 
 
     def calcPotential(self):
@@ -27,8 +43,8 @@ class Power:
         return potential
 
     
-    def calcEnergyCost(self):
-        return energyCosts[self.potential]
+    def calcCost(self):
+        return costs[self.potential]
 
 
     def addEffect(self, effectName, points=0):
@@ -43,7 +59,7 @@ class Power:
 
 
 # A table of potential -to-> cost to use the power
-energyCosts={0:0,
+costs={0:0,
              1:1,
              2:1,
              3:1,

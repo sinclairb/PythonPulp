@@ -22,20 +22,23 @@ class Character:
 
     def setName(self, newName):
         """
+        Makes sure the new value is acceptable
         Sets the character's name to a new value
         """
         self.name=newName
 
 
     def setEpithet(self, newEpithet):
-            """
-            Sets the character's epithet to a new value
-            """
-            self.epithet=newEpithet
+        """
+        Makes sure the new value is acceptable
+        Sets the character's epithet to a new value            
+        """
+        self.epithet=newEpithet
 
 
     def setLevel(self, newLevel):
         """
+        Makes sure the new value is acceptable
         Sets the character's level to a new value
         """
         self.level=newLevel

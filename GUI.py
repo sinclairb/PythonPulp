@@ -1,6 +1,7 @@
 import tkinter
 import tkinter.ttk
 import character
+import power
 import effect
 
 class MainMenu(tkinter.Frame):
@@ -123,9 +124,96 @@ class CharacterFrame(tkinter.Frame):
         self.characterEnergyDisplay=tkinter.Label(self,text=self.character.energy)
         self.characterEnergyDisplay.pack()
 
-        # A test button to print a value of the character
-        #self.test=tkinter.Button(self, text="Print Name", command=lambda: print(self.character.name))
-        #self.test.pack()
+        # A Frame that displays the character's power(s)
+        self.powersFrame=PowersFrame(self.character.powers,self)
+        self.powersFrame.pack()
+
+
+
+class PowersFrame(tkinter.Frame):
+    def __init__(self, tiedPowers, *master):
+        tkinter.Frame.__init__(self,*master)
+        self.pack()
+
+        # The character.powers list that the frame displays
+        self.powers=tiedPowers
+
+        # Button that creates another blank power
+        self.addPowerButton=tkinter.Button(self, text="Add Power", command=self.addPower)
+        self.addPowerButton.pack()
+
+        # Create a PowerFrame to display each power the character has
+        for eachPower in self.powers:
+            # Create a PowerFrame for each power
+            eachPowerFrame=PowerFrame(eachPower,self)
+            eachPowerFrame.pack()
+
+
+    def addPower(self):
+        # Create a new default power
+        newPower=power.Power()
+        # Add the power to the charcter's power list
+        self.powers.append(newPower)
+        # Create a PowerFrame for the power
+        newPowerFrame=PowerFrame(newPower,self)
+        newPowerFrame.pack()
+
+
+
+class PowerFrame(tkinter.Frame):
+    def __init__(self, tiedPower, *master):
+        tkinter.Frame.__init__(self,*master)
+        self.pack()
+
+        # The power object that the powerframe is tied to
+        self.power=tiedPower
+
+        # A labeled entry to display and edit the power's name
+        self.powerNameLabel=tkinter.Label(self,text="Power Name")
+        self.powerNameLabel.pack()
+        self.powerNameEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.updateName())
+        self.powerNameEntry.pack()
+        self.powerNameEntry.delete(0,'end')
+        self.powerNameEntry.insert(0,self.power.name)
+
+        # A label that displays the power's potential
+        self.powerPotentialLabel=tkinter.Label(self,text="Potential")
+        self.powerPotentialLabel.pack()
+        self.powerPotentialDisplay=tkinter.Label(self,text=self.power.potential)
+        self.powerPotentialDisplay.pack()
+
+        # A label that displays the power's cost
+        self.costLabel=tkinter.Label(self,text="Energy Cost")
+        self.costLabel.pack()
+        self.costDisplay=tkinter.Label(self,text=self.power.cost)
+        self.costDisplay.pack()
+
+        # A frame that displays the power's effect(s)
+        self.effectsFrame=EffectsFrame(self)
+        self.effectsFrame.pack()
+
+        # A labeled textbox to display and edit the power's description
+        self.powerDescriptionLabel=tkinter.Label(self,text="Description")
+        self.powerDescriptionLabel.pack()
+        self.powerDescriptionText=tkinter.Text(self)
+        self.powerDescriptionText.bind("<Button-1>",lambda: self.updateDescription())
+        self.powerDescriptionText.pack()
+        self.powerDescriptionText.delete(1.0,'end')
+        self.powerDescriptionText.insert(1.0,self.power.description) 
+
+    
+    def updateName(self):
+        # Read the contents of the powerNameEntry 
+        newName=self.powerNameEntry.get()
+        # update the character's power's name to match
+        self.power.setName(newName)
+
+    
+    def updateDescription(self):
+        # Read the contents of the powerDescriptionText 
+        newDescription=self.powerDescriptionText.get(1.0,'end')
+        # update the character's power's description to match
+        self.power.setDescription(newDescription)
 
 
 
