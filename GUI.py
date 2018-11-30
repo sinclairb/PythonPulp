@@ -218,23 +218,57 @@ class PowerFrame(tkinter.Frame):
 
 
 class EffectsFrame(tkinter.Frame):
-    def __init__(self, *master):
+    def __init__(self, tiedEffects, *master):
         tkinter.Frame.__init__(self,*master)
         self.pack()
 
+        # The character.effects list that the frame displays
+        self.effects=tiedEffects
+
         # Displays the label for the effects section
-        # **Will eventually be able to collapse and expand the list of effects
         self.effectsHeader=tkinter.Label(self, text="Effects")
         self.effectsHeader.pack()
 
-        # Five dropdown menus to allow the user to set possible effects
-        self.effect1=tkinter.OptionMenu(self, "Effect1", *effect.listOfEffects)
-        self.effect1.pack()
-        self.effect2=tkinter.OptionMenu(self, "Effect2", *effect.listOfEffects)
-        self.effect2.pack()
-        self.effect3=tkinter.OptionMenu(self, "Effect3", *effect.listOfEffects)
-        self.effect3.pack()
-        self.effect4=tkinter.OptionMenu(self, "Effect4", *effect.listOfEffects)
-        self.effect4.pack()
-        self.effect5=tkinter.OptionMenu(self, "Effect5", *effect.listOfEffects)
-        self.effect5.pack()
+        # Button that creates another blank effect
+        self.addEffectButton=tkinter.Button(self, text="Add Effect", command=self.addEffect)
+        self.addEffectButton.pack()
+
+        # Create a EffectFrame to display each effect the character has
+        for eachEffect in self.effects:
+            # Create an EffectFrame for each effect
+            eachEffectFrame=EffectFrame(eachEffect,self)
+            eachEffectFrame.pack()
+
+
+    def addEffect(self):
+        # Create a new default effect
+        newEffect=effect.Effect()
+        # Add the effect to the charcter's effects list
+        self.effects.append(newEffect)
+        # Create a EffectFrame for the effect
+        newEffectFrame=EffectFrame(newEffect,self)
+        newEffectFrame.pack()
+
+
+
+class EffectFrame(tkinter.Frame):
+    def __init__(self, tiedEffect, *master):
+        tkinter.Frame.__init__(self,*master)
+        self.pack()
+
+        # The effect object that the powerframe is tied to
+        self.effect=tiedEffect
+
+        # A dropdown menu to allow the user to set possible effects
+        self.effectDropdown=tkinter.OptionMenu(self, "Effect", *effect.listOfEffects)
+        self.effectDropdown.pack()
+
+        # An entry to set and display the points value of the effect
+        self.effectPointsEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.updatePoints())
+        self.effectPointsEntry.pack()
+
+    def updatePoints(self):
+        # Read the contents of the powerNameEntry 
+        newPoints=self.effectPointsEntry.get()
+        # update the effect's points to match
+        self.effect.setPoints(newPoints)
