@@ -189,14 +189,14 @@ class PowerFrame(tkinter.Frame):
         self.costDisplay.pack()
 
         # A frame that displays the power's effect(s)
-        self.effectsFrame=EffectsFrame(self)
+        self.effectsFrame=EffectsFrame(self.power.effects,self)
         self.effectsFrame.pack()
 
         # A labeled textbox to display and edit the power's description
         self.powerDescriptionLabel=tkinter.Label(self,text="Description")
         self.powerDescriptionLabel.pack()
         self.powerDescriptionText=tkinter.Text(self)
-        self.powerDescriptionText.bind("<Button-1>",lambda: self.updateDescription())
+        self.powerDescriptionText.bind("<Button-1>",lambda x: self.updateDescription())
         self.powerDescriptionText.pack()
         self.powerDescriptionText.delete(1.0,'end')
         self.powerDescriptionText.insert(1.0,self.power.description) 
@@ -259,16 +259,30 @@ class EffectFrame(tkinter.Frame):
         # The effect object that the powerframe is tied to
         self.effect=tiedEffect
 
+        # The selected effect
+        self.selectedEffect=tkinter.StringVar()
+        self.selectedEffect.set("Effect")
+
         # A dropdown menu to allow the user to set possible effects
-        self.effectDropdown=tkinter.OptionMenu(self, "Effect", *effect.listOfEffects)
+        self.effectDropdown=tkinter.OptionMenu(self, self.selectedEffect, *effect.listOfEffects.keys(), command=lambda x: self.updateEffect())
         self.effectDropdown.pack()
 
         # An entry to set and display the points value of the effect
         self.effectPointsEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.updatePoints())
         self.effectPointsEntry.pack()
 
+
     def updatePoints(self):
         # Read the contents of the powerNameEntry 
         newPoints=self.effectPointsEntry.get()
         # update the effect's points to match
         self.effect.setPoints(newPoints)
+
+
+    def updateEffect(self):
+        # Get the name of the effect
+        name=str(self.selectedEffect.get())
+        # Update the name to match
+        self.effect.setName(name)
+        # Update the respective cost per point
+        self.effect.setCost(effect.listOfEffects[name])

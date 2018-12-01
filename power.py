@@ -23,7 +23,7 @@ class Power:
         Makes sure the new value is acceptable
         Sets the power's name to a new value
         """
-        self.name=newName
+        self.name=str(newName)
     
 
     def setDescription(self, newDescription):
@@ -31,7 +31,7 @@ class Power:
         Makes sure the new value is acceptable
         Sets the power's description to a new value
         """
-        self.description=newDescription
+        self.description=str(newDescription)
 
 
     def calcPotential(self):
@@ -42,20 +42,26 @@ class Power:
             potential+=eachEffectTotalCost
         return potential
 
+
+    def setPotential(self, newPotential):
+        """
+        Makes sure the new value is acceptable
+        Sets the power's potential to a new value
+        """
+        self.potential=int(newPotential)
+
     
     def calcCost(self):
         return costs[self.potential]
 
 
-    def addEffect(self, effectName, points=0):
-        effect.effectNameToObject(effectName)
-        self.effects.append()
+    def setCost(self, newCost):
+        """
+        Makes sure the new value is acceptable
+        Sets the power's cost to a new value
+        """
+        self.cost=int(newCost)
 
-
-    def removeEffect(self, effectName):
-        for eachEffect in self.effects:
-            if effectName==eachEffect.__class__.__name__:
-                self.effects.remove(eachEffect)
 
 
 # A table of potential -to-> cost to use the power
