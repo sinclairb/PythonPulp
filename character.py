@@ -14,10 +14,10 @@ class Character:
         self.epithet=epithet
         # The characters level; influences base energy
         self.level=level
-        # The amount of energy the character has; influenced by powers and damage from combat
-        self.energy=self.calcEnergy()
         # The list of power objects the character possesses; usually between 1 and 5 inclusive
         self.powers=powers
+        # The amount of energy the character has; influenced by powers and damage from combat
+        self.energy=self.calcEnergy()
     
 
     def setName(self, newName):
@@ -48,6 +48,21 @@ class Character:
         """
         Based on the character's base energy, powers, damage sustained, and powers used, return the energy the character should have
         """
-        base=20
-        addition=5*int(self.level)
-        return base+addition
+        # Calculate the character's base energy and level modifier
+        energy=20
+        energy+=5*int(self.level)
+
+        # Calculate the amount of energy used by powers
+        for eachPower in self.powers:
+            energy-=eachPower.potential
+
+        return energy
+
+
+
+    def setEnergy(self, newEnergy):
+        """
+        Makes sure the new value is acceptable
+        Sets the character's energy to a new value
+        """
+        self.energy=newEnergy

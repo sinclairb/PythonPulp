@@ -7,19 +7,19 @@ import effect
 class MainMenu(tkinter.Frame):
     def __init__(self, *master):
         tkinter.Frame.__init__(self,*master)
-        self.pack(fill='both')
+        self.pack()
 
         # Button to create a new character, adding a new empty charater tab
         self.newCharacterButton=tkinter.Button(self, text="New Character", command=self.master.addNewCharacter)
-        self.newCharacterButton.pack()
+        self.newCharacterButton.pack(pady=1)
 
         # Fullscreen toggle
         self.fullscreenButton = tkinter.Button(self, text="Toggle Fullscreen", command= lambda: self.master.master.attributes('-fullscreen', (not self.master.master.attributes('-fullscreen'))))
-        self.fullscreenButton.pack()
+        self.fullscreenButton.pack(pady=1)
 
         # Quit button
         self.quitButton = tkinter.Button(self, text="Quit", command=self.master.master.destroy)
-        self.quitButton.pack()
+        self.quitButton.pack(pady=1)
 
 
 
@@ -29,11 +29,11 @@ class CharacterTabs(tkinter.Frame):
         A Frame that contains tabs for the main menu and loaded characters
         """
         tkinter.Frame.__init__(self,*master)
-        self.pack(fill='both')
+        self.pack()
 
         # Create the tab menu at the top of the window
         self.tabs=tkinter.ttk.Notebook(self)
-        self.tabs.pack(fill='both')
+        self.tabs.pack()
         # Create the main menu tab
         self.mainMenu=MainMenu(self)
         self.tabs.add(self.mainMenu,text="Menu")
@@ -89,7 +89,7 @@ class CharacterTabs(tkinter.Frame):
 class CharacterFrame(tkinter.Frame):
     def __init__(self, tiedCharacter, *master):
         tkinter.Frame.__init__(self,*master)
-        self.pack(fill='both')
+        self.pack()
 
         # The character object that the frame is tied to
         self.character=tiedCharacter
@@ -207,6 +207,8 @@ class PowerFrame(tkinter.Frame):
         newName=self.powerNameEntry.get()
         # update the character's power's name to match
         self.power.setName(newName)
+        # Return true in order to indicate that the update fired
+        return True
 
     
     def updateDescription(self):
@@ -214,6 +216,8 @@ class PowerFrame(tkinter.Frame):
         newDescription=self.powerDescriptionText.get(1.0,'end')
         # update the character's power's description to match
         self.power.setDescription(newDescription)
+        # Return true in order to indicate that the update fired
+        return True
 
 
 
@@ -270,13 +274,18 @@ class EffectFrame(tkinter.Frame):
         # An entry to set and display the points value of the effect
         self.effectPointsEntry=tkinter.Entry(self,validate='focus',vcmd=lambda: self.updatePoints())
         self.effectPointsEntry.pack()
+        self.effectPointsEntry.delete(0,'end')
+        self.effectPointsEntry.insert(0,"1")
 
 
     def updatePoints(self):
         # Read the contents of the powerNameEntry 
         newPoints=self.effectPointsEntry.get()
-        # update the effect's points to match
+        # Update the effect's points to match
         self.effect.setPoints(newPoints)
+        # Update the stats stack
+        # Return true in order to indicate that the update fired
+        return self.updateStack()
 
 
     def updateEffect(self):
@@ -286,3 +295,27 @@ class EffectFrame(tkinter.Frame):
         self.effect.setName(name)
         # Update the respective cost per point
         self.effect.setCost(effect.listOfEffects[name])
+        # Update the stats stack
+        # Return true in order to indicate that the update fired
+        return self.updateStack()
+
+
+    def updateStack(self):
+        # Recalculate and set the power's potential and cost
+        tiedPowerFrame=self.master.master
+        tiedPowerFrame.power.setPotential(tiedPowerFrame.power.calcPotential())
+        tiedPowerFrame.power.setCost(tiedPowerFrame.power.calcCost())
+
+        # Update the GUI display of the character's potential and cost
+        tiedPowerFrame.powerPotentialDisplay.config(text=tiedPowerFrame.power.potential)
+        tiedPowerFrame.costDisplay.config(text=tiedPowerFrame.power.cost)
+
+        # Recalculate the character's energy
+        tiedCharacterFrame=self.master.master.master.master
+        tiedCharacterFrame.character.setEnergy(tiedCharacterFrame.character.calcEnergy())
+
+        # Update the GUI display of the character's energy
+        tiedCharacterFrame.characterEnergyDisplay.config(text=tiedCharacterFrame.character.energy)
+
+        # Return true in order to indicate that the update fired
+        return True
